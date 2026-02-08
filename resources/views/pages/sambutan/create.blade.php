@@ -42,69 +42,69 @@
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi paragraf 1</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi1" id="" class="form-control" cols="30" rows="5">{{old('deskripsi1')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi paragraf 2</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi2" id="" class="form-control" cols="30" rows="5">{{old('deskripsi2')}}</textarea>
                       </div>
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi paragraf 3</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi3" id="" class="form-control" cols="30" rows="5">{{old('deskripsi3')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi paragraf 4</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi4" id="" class="form-control" cols="30" rows="5">{{old('deskripsi4')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi paragraf 5</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi5" id="" class="form-control" cols="30" rows="5">{{old('deskripsi5')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi poin 1</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi6" id="" class="form-control" cols="30" rows="5">{{old('deskripsi6')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi poin 2</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi7" id="" class="form-control" cols="30" rows="5">{{old('deskripsi7')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi poin 3</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi8" id="" class="form-control" cols="30" rows="5">{{old('deskripsi8')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi poin 4</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi9" id="" class="form-control" cols="30" rows="5">{{old('deskripsi9')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
-                        <label>deskripsi</label>
+                        <label>deskripsi poin 5</label>
                       </div>
                       <div class="col-md-8 form-group">
                        <textarea name="deskripsi10" id="" class="form-control" cols="30" rows="5">{{old('deskripsi10')}}</textarea>
@@ -114,14 +114,14 @@
                         <label>nama pemilik</label>
                       </div>
                       <div class="col-md-8 form-group">
-                      <input type="text" name="nama_pemilik" value="{{old('nama_pemilik')}}" class="form-control" placeholder="nama pemilik">
+                      <input type="text" name="nama_pemilik" value="{{old('nama_pemilik')}}" class="form-control" placeholder="masukkan nama pemilik">
                       </div>
 
                        <div class="col-md-4">
                         <label>jabtan</label>
                       </div>
                       <div class="col-md-8 form-group">
-                      <input type="text" name="jabatan" value="{{old('jabatan')}}" class="form-control" placeholder="jabatan">
+                      <input type="text" name="jabatan" value="{{old('jabatan')}}" class="form-control" placeholder="masukkan jabatan">
                       </div>
 
                       

@@ -43,7 +43,7 @@
     <div class="container-fluid bg-white sticky-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
-                <a href="index.html" class="navbar-brand">
+                <a href="{{route('landingpage')}}" class="navbar-brand">
                     <img class="img-fluid" src="{{asset('dashboard/assets/images/logo/logo.png')}}" alt="Logo" style="width: 120px">
                 </a>
                 <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">

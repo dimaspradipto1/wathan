@@ -16,34 +16,35 @@ class SambutanController extends Controller
      */
     public function index()
     {
-        if(request()->ajax()){
+        if (request()->ajax()) {
             $query = Sambutan::query();
             return DataTables::of($query)
-            ->addIndexColumn()
-            ->addColumn('image', function($item){
-                return '
-                    <img src="'.Storage::url($item->image).'" style="width:100px">
-                ';
-            })
-            ->addColumn('action', function($item){
-                $button = '';
+                ->addIndexColumn()
+                ->addColumn('image', function ($item) {
+                    if ($item->image) {
+                        return '<img src="' . Storage::url($item->image) . '" style="width:100px">';
+                    }
+                    return '-';
+                })
+                ->addColumn('action', function ($item) {
+                    $button = '';
 
-                $button.= '
+                    $button .= '
                     <div class="d-flex align-item-center">
-                        <a href="'.route('sambutan.edit', $item->id).'" class="btn btn-sm btn-warning text-white mx-2 my-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
-                        <form action="'.route('sambutan.destroy', $item->id).'" method="POST" class="d-inline">
-                        '.csrf_field().'
-                        '.method_field('delete').'
+                        <a href="' . route('sambutan.edit', $item->id) . '" class="btn btn-sm btn-warning text-white mx-2 my-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
+                        <form action="' . route('sambutan.destroy', $item->id) . '" method="POST" class="d-inline">
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
                         <button type="submit" class="btn btn-sm btn-danger my-2 mx-2">
                          <i class="fa-solid fa-trash"></i> Delete
                         </button>
                         </form>
                     </div>
                 ';
-                return $button;
-            })
-            ->rawColumns(['action', 'image'])
-            ->make();
+                    return $button;
+                })
+                ->rawColumns(['action', 'image'])
+                ->make();
         }
         return view('pages.sambutan.index');
     }
@@ -75,7 +76,11 @@ class SambutanController extends Controller
         $data['nama_pemilik'] = $request->nama_pemilik;
         $data['jabatan'] = $request->jabatan;
         $file = $request->file('image');
-        $data['image'] = $file->storeAs('public/sambutan', $file->getClientOriginalName());
+        if ($file) {
+            $data['image'] = $file->storeAs('public/sambutan', $file->getClientOriginalName());
+        } else {
+            $data['image'] = null;
+        }
 
         Sambutan::create($data);
         Alert::success('success', 'data berhasil ditambah')->autoclose(2000)->toToast();
@@ -103,9 +108,21 @@ class SambutanController extends Controller
      */
     public function update(Request $request, Sambutan $sambutan)
     {
-        $sambutan = Sambutan::FindOrFail($sambutan->id);
-        $sambutan->update($request->all());
-        
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($sambutan->image) {
+                Storage::delete($sambutan->image);
+            }
+            $file = $request->file('image');
+            $data['image'] = $file->storeAs('public/sambutan', $file->getClientOriginalName());
+        } else {
+            // Keep existing image
+            unset($data['image']);
+        }
+
+        $sambutan->update($data);
+
         Alert::success('success', 'data berhasil diubah')->autoclose(2000)->toToast();
         return redirect(route('sambutan.index'));
     }
@@ -115,8 +132,9 @@ class SambutanController extends Controller
      */
     public function destroy(Sambutan $sambutan)
     {
-        $filePath = $sambutan->image;
-        Storage::delete($filePath);
+        if ($sambutan->image) {
+            Storage::delete($sambutan->image);
+        }
         $sambutan->delete();
 
         Alert::success('success', 'data berhasil dihapus')->autoclose(2000)->toToast();

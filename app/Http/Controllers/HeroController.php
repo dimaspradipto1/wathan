@@ -15,32 +15,33 @@ class HeroController extends Controller
      */
     public function index()
     {
-        if(request()->ajax()){
+        if (request()->ajax()) {
             $query = Hero::query();
 
             return DataTables::of($query)
-            ->addIndexColumn()
-            ->addColumn('image', function($item){
-                return '
-                    <img src="'.Storage::url($item->image).'" style="width:100px">
-                ';
-            })
-            ->addColumn('action', function($item){
-                $button = '';
+                ->addIndexColumn()
+                ->addColumn('image', function ($item) {
+                    if ($item->image) {
+                        return '<img src="' . Storage::url($item->image) . '" style="width:100px">';
+                    }
+                    return '-';
+                })
+                ->addColumn('action', function ($item) {
+                    $button = '';
 
-                $button .='
+                    $button .= '
                     <div class="d-flex align-item-center">
-                    <a href="'.route('hero.edit', $item->id).'" class="btn btn-sm btn-warning my-2 mx-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
-                    <form action="'.route('hero.destroy', $item->id).'" class="d-inline" method="POST">
-                    '.csrf_field().'
-                    '.method_field('delete').'
+                    <a href="' . route('hero.edit', $item->id) . '" class="btn btn-sm btn-warning my-2 mx-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
+                    <form action="' . route('hero.destroy', $item->id) . '" class="d-inline" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('delete') . '
                     <button type="submit" class="btn btn-sm btn-danger my-2 mx-2"><i class="fa-solid fa-trash"></i> Delete</button>
                     </form>
                 ';
-                return $button;
-            })
-            ->rawColumns(['action', 'image'])
-            ->make();
+                    return $button;
+                })
+                ->rawColumns(['action', 'image'])
+                ->make();
         }
         return view('pages.hero.index');
     }
@@ -58,10 +59,14 @@ class HeroController extends Controller
      */
     public function store(Request $request)
     {
-        $data['judul']= $request->judul;
-        $data['deskripsi']=$request->deskripsi;
-        $file=$request->file('image');
-        $data['image']= $file->storeAs('public/hero', $file->getClientOriginalName());
+        $data['judul'] = $request->judul;
+        $data['deskripsi'] = $request->deskripsi;
+        $file = $request->file('image');
+        if ($file) {
+            $data['image'] = $file->storeAs('public/hero', $file->getClientOriginalName());
+        } else {
+            $data['image'] = null;
+        }
 
         Hero::create($data);
         Alert::success('success', 'data berhasil ditambahkan')->autoclose(2000)->toToast();
@@ -89,10 +94,16 @@ class HeroController extends Controller
      */
     public function update(Request $request, Hero $hero)
     {
-        $hero = Hero::FindOrFail($hero->id);
-        $file = $request->file('image');
-        Storage::delete($hero->image);
-        $data['image'] = $file->storeAs('public/hero', $file->getClientOriginalName());
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            if ($hero->image) {
+                Storage::delete($hero->image);
+            }
+            $file = $request->file('image');
+            $data['image'] = $file->storeAs('public/hero', $file->getClientOriginalName());
+        } else {
+            unset($data['image']);
+        }
 
         $hero->update($data);
 
@@ -105,8 +116,9 @@ class HeroController extends Controller
      */
     public function destroy(Hero $hero)
     {
-        $filePath = $hero->image;
-        Storage::delete($filePath);
+        if ($hero->image) {
+            Storage::delete($hero->image);
+        }
         $hero->delete();
 
         Alert::success('success', 'data berhasil dihapus')->autoclose(2000)->toToast();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sambutans', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->text('deskripsi1');
             $table->text('deskripsi2');
             $table->text('deskripsi3');

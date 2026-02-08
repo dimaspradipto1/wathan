@@ -15,32 +15,33 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        if(request()->ajax()){
+        if (request()->ajax()) {
             $query = Gallery::query();
             return DataTables::of($query)
-            ->addIndexColumn()
-            ->editColumn('image', function($item){
-                return '
-                    <img src="'.Storage::url($item->image).'" alt="image" width="100px">
-                ';
-            })
-            ->addColumn('action', function($item){
-                $button ='';
+                ->addIndexColumn()
+                ->editColumn('image', function ($item) {
+                    if ($item->image) {
+                        return '<img src="' . Storage::url($item->image) . '" alt="image" width="100px">';
+                    }
+                    return '-';
+                })
+                ->addColumn('action', function ($item) {
+                    $button = '';
 
-                $button.= '
+                    $button .= '
                 <div class="d-flex align-item-center">
-                    <a href="'.route('gallery.edit', $item->id).'" class="btn btn-sm btn-warning my-2 mx-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
-                    <form action="'.route('gallery.destroy', $item->id).'" class="d-inline" method="POST">
-                    '.csrf_field().'
-                    '.method_field('delete').'
+                    <a href="' . route('gallery.edit', $item->id) . '" class="btn btn-sm btn-warning my-2 mx-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
+                    <form action="' . route('gallery.destroy', $item->id) . '" class="d-inline" method="POST">
+                    ' . csrf_field() . '
+                    ' . method_field('delete') . '
                     <button type="submit" class="btn btn-sm btn-danger my-2 mx-2"><i class="fa-solid fa-trash"></i> Delete</button>
                     </form>
                 </div>
                 ';
-                return $button;
-            })
-            ->rawColumns(['action', 'image'])
-            ->make();
+                    return $button;
+                })
+                ->rawColumns(['action', 'image'])
+                ->make();
         }
         return view('pages.gallery.index');
     }
@@ -59,7 +60,11 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $file = $request->file('image');
-        $data['image'] = $file->storeAs('public/gallery', $file->getClientOriginalName());
+        if ($file) {
+            $data['image'] = $file->storeAs('public/gallery', $file->getClientOriginalName());
+        } else {
+            $data['image'] = null;
+        }
 
         Gallery::create($data);
         Alert::success('success', 'data berhasil ditambahkan')->autoclose(2000)->toToast();
@@ -87,10 +92,16 @@ class GalleryController extends Controller
      */
     public function update(Request $request, gallery $gallery)
     {
-        $gallery = Gallery::FindOrFail($gallery->id);
-        $file = $request->file('image');
-        Storage::delete($gallery->image);
-        $data['image'] = $file->storeAs('public/gallery', $file->getClientOriginalName());
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            if ($gallery->image) {
+                Storage::delete($gallery->image);
+            }
+            $file = $request->file('image');
+            $data['image'] = $file->storeAs('public/gallery', $file->getClientOriginalName());
+        } else {
+            unset($data['image']);
+        }
 
         $gallery->update($data);
 
@@ -103,8 +114,9 @@ class GalleryController extends Controller
      */
     public function destroy(gallery $gallery)
     {
-        $filePath = $gallery->image;
-        Storage::delete($filePath);
+        if ($gallery->image) {
+            Storage::delete($gallery->image);
+        }
         $gallery->delete();
 
         Alert::success('success', 'data berhasil dihapus')->autoclose(2000)->toToast();

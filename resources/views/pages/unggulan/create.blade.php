@@ -38,7 +38,7 @@
                         <label>deskripsi</label>
                       </div>
                       <div class="col-md-8 form-group">
-                       <textarea name="deskripsi" id="" class="form-control" cols="30" rows="5">{{old('deskripsi')}}</textarea>
+                       <textarea name="deskripsi" id="" class="form-control" cols="30" rows="5" placeholder="masukkan deskripsi">{{old('deskripsi')}}</textarea>
                       </div>
 
                       <div class="col-sm-12 d-flex justify-content-end">

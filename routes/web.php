@@ -43,7 +43,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::controller(LandingPageController::class)->group(function(){
+Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landingpage');
     Route::get('home-sambutan', 'homesambutan')->name('homesambutan');
     Route::get('home-visi-misi', 'homevisimisi')->name('homevisimisi');
@@ -53,10 +53,9 @@ Route::controller(LandingPageController::class)->group(function(){
     Route::get('home-keunggulan', 'homekeunggulan')->name('homekeunggulan');
     Route::get('home-video', 'homevideo')->name('homevideo');
     Route::get('prestasi', 'prestasi')->name('prestasi');
-
 });
 
-Route::controller(LoginController::class)->group(function(){
+Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::get('/register', 'register')->name('register');
     Route::post('/loginproses', 'loginproses')->name('loginproses');
@@ -64,7 +63,7 @@ Route::controller(LoginController::class)->group(function(){
 });
 
 
-Route::middleware(['auth','checkrole'])->group(function(){
+Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('/admin', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::resource('visimisi', VisiMisiController::class);
     Route::resource('sambutan', SambutanController::class);
@@ -80,7 +79,7 @@ Route::middleware(['auth','checkrole'])->group(function(){
     Route::resource('siswa', SiswaController::class);
     Route::resource('video', VideoController::class);
     Route::resource('user', UserController::class);
-    Route::get('/user/{id}/update-password',[UserController::class, 'showUpdatePasswordForm'])->name('user.showUpdatePasswordForm');
+    Route::get('/user/{id}/update-password', [UserController::class, 'showUpdatePasswordForm'])->name('user.showUpdatePasswordForm');
     Route::put('/user/{id}/update-password', [UserController::class, 'updatePassword'])->name('user.updatePassword');
     Route::resource('bacaan-wudhu-sholat', BacaanWudhuSholatController::class);
     Route::resource('doa-harian', DoaHarianController::class);

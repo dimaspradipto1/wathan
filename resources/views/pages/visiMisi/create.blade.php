@@ -44,21 +44,21 @@
                         <label>misi 1</label>
                       </div>
                       <div class="col-md-8 form-group">
-                       <textarea name="misi1" id="" class="form-control" cols="30" rows="5">{{old('misi1')}}</textarea>
+                       <textarea name="misi1" id="" class="form-control" cols="30" rows="5" placeholder="masukkan misi point 1">{{old('misi1')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
                         <label>misi 2</label>
                       </div>
                       <div class="col-md-8 form-group">
-                       <textarea name="misi2" id="" class="form-control" cols="30" rows="5">{{old('misi2')}}</textarea>
+                       <textarea name="misi2" id="" class="form-control" cols="30" rows="5" placeholder="masukkan misi point 2">{{old('misi2')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
                         <label>misi 3</label>
                       </div>
                       <div class="col-md-8 form-group">
-                       <textarea name="misi3" id="" class="form-control" cols="30" rows="5">{{old('misi3')}}</textarea>
+                       <textarea name="misi3" id="" class="form-control" cols="30" rows="5" placeholder="masukkan misi point 3">{{old('misi3')}}</textarea>
                       </div>
 
                       <div class="col-md-4">
@@ -72,7 +72,7 @@
                         <label>misi 5</label>
                       </div>
                       <div class="col-md-8 form-group">
-                       <textarea name="misi5" id="" class="form-control" cols="30" rows="5">{{old('misi5')}}</textarea>
+                       <textarea name="misi5" id="" class="form-control" cols="30" rows="5" placeholder="masukkan misi point 5">{{old('misi5')}}</textarea>
                       </div>
                      
                       <div class="col-sm-12 d-flex justify-content-end">

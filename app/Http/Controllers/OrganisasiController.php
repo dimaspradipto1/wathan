@@ -15,33 +15,34 @@ class OrganisasiController extends Controller
      */
     public function index()
     {
-        if(request()->ajax()){
+        if (request()->ajax()) {
             $query = Organisasi::query();
 
             return DataTables::of($query)
-            ->addIndexColumn()
-            ->editColumn('image', function($item){
-                return '
-                    <img src="'.Storage::url($item->image).'" alt="image" width="100px">
-                ';
-            })
-            ->addColumn('action', function($item){
-                $button = '';
+                ->addIndexColumn()
+                ->editColumn('image', function ($item) {
+                    if ($item->image) {
+                        return '<img src="' . Storage::url($item->image) . '" alt="image" width="100px">';
+                    }
+                    return '-';
+                })
+                ->addColumn('action', function ($item) {
+                    $button = '';
 
-               $button .='
+                    $button .= '
                 <div class="d-flex align-item-center">
-                    <a href="'.route('organisasi.edit', $item->id).'" class="btn btn-sm btn-warning my-2 mx-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
-                    <form action="'.route('organisasi.destroy', $item->id).'" method="POST" class="d-inline">
-                    '.csrf_field().'
-                    '.method_field('delete').'
+                    <a href="' . route('organisasi.edit', $item->id) . '" class="btn btn-sm btn-warning my-2 mx-2"><i class="fa-solid fa-pen-to-square"></i>  Edit</a>
+                    <form action="' . route('organisasi.destroy', $item->id) . '" method="POST" class="d-inline">
+                    ' . csrf_field() . '
+                    ' . method_field('delete') . '
                     <button type="submit" class="btn btn-sm btn-danger my-2 mx-2"><i class="fa-solid fa-trash"></i> Delete</button>
                     </form>
                 </div>
                ';
-               return $button;
-            })
-            ->rawColumns(['action', 'image'])
-            ->make();
+                    return $button;
+                })
+                ->rawColumns(['action', 'image'])
+                ->make();
         }
         return view('pages.Organisasi.index');
     }
@@ -60,7 +61,11 @@ class OrganisasiController extends Controller
     public function store(Request $request)
     {
         $file = $request->file('image');
-        $data['image'] = $file->storeAs('public/organisasi', $file->getClientOriginalName());
+        if ($file) {
+            $data['image'] = $file->storeAs('public/organisasi', $file->getClientOriginalName());
+        } else {
+            $data['image'] = null;
+        }
 
         Organisasi::create($data);
 
@@ -89,10 +94,16 @@ class OrganisasiController extends Controller
      */
     public function update(Request $request, Organisasi $organisasi)
     {
-        $organisasi = Organisasi::FindOrFail($organisasi->id);
-        $file = $request->file('image');
-        Storage::delete($organisasi->image);
-        $data ['image'] = $file->storeAs('public/organisasi', $file->getClientOriginalName());
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            if ($organisasi->image) {
+                Storage::delete($organisasi->image);
+            }
+            $file = $request->file('image');
+            $data['image'] = $file->storeAs('public/organisasi', $file->getClientOriginalName());
+        } else {
+            unset($data['image']);
+        }
 
         $organisasi->update($data);
 
@@ -105,8 +116,9 @@ class OrganisasiController extends Controller
      */
     public function destroy(Organisasi $organisasi)
     {
-        $filePath = $organisasi->image;
-        Storage::delete($filePath);
+        if ($organisasi->image) {
+            Storage::delete($organisasi->image);
+        }
         $organisasi->delete();
 
         Alert::success('success', 'data berhasil dihapus')->autoclose(2000)->toToast();

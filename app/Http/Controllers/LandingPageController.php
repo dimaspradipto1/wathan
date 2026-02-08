@@ -25,31 +25,31 @@ class LandingPageController extends Controller
         $galleries = Gallery::all();
         $unggulan = Unggulan::all();
         $video = Video::all();
-        return view('layouts.landingpage.index', compact('kontak','hero', 'sambutan', 'galleries', 'unggulan', 'video'));
+        return view('layouts.landingpage.index', compact('kontak', 'hero', 'sambutan', 'galleries', 'unggulan', 'video'));
     }
 
     public function homesambutan()
     {
-        $sambutan = Sambutan::first();
-        $kontak = Kontak::first();
+        $sambutan = Sambutan::first() ?? new Sambutan();
+        $kontak = Kontak::first() ?? new Kontak();
         return view('layouts.landingpage.sambutan', compact('kontak', 'sambutan'));
     }
 
     public function homevisimisi(Request $request)
     {
-        $visimisi = Visimisi::first  ();
+        $visimisi = Visimisi::first() ?? new Visimisi();
         return view('layouts.landingpage.visimisi', compact('visimisi'));
     }
 
     public function homekontak(Request $request)
     {
-        $kontak = Kontak::first();
+        $kontak = Kontak::first() ?? new Kontak();
         return view('layouts.landingpage.kontak', compact('kontak'));
     }
 
     public function homeorganisasi()
     {
-        $organisasi = Organisasi::first();
+        $organisasi = Organisasi::first() ?? new Organisasi();
         return view('layouts.landingpage.organisasi', compact('organisasi'));
     }
 

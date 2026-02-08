@@ -27,35 +27,35 @@
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item  ">
+            <li class="sidebar-item {{ request()->routeIs('unggulan.index') ? 'active' : '' }}">
                 <a href="{{ route('unggulan.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">program unggulan</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('gallery.index') ? 'active' : '' }}">
                 <a href="{{ route('gallery.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">gallery</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('hero.index') ? 'active' : '' }}">
                 <a href="{{ route('hero.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">hero</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('surat.index') ? 'active' : '' }}">
                 <a href="{{ route('surat.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">Surat Al Quran</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('legalitas.index') ? 'active' : '' }}">
                 <a href="{{ route('legalitas.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">legalitas</span>
@@ -63,21 +63,21 @@
             </li>
 
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('video.index') ? 'active' : '' }}">
                 <a href="{{ route('video.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">video</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('kontak.index') ? 'active' : '' }}">
                 <a href="{{ route('kontak.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-spreadsheet-fill"></i>
                     <span class="text-capitalize">kontak</span>
                 </a>
             </li>
 
-            <li class="sidebar-item  ">
+            <li class="sidebar-item  {{ request()->routeIs('user.index') ? 'active' : '' }}">
                 <a href="{{ route('user.index') }}" class='sidebar-link'>
                     <i class="bi bi-file-earmark-person"></i>
                     <span class="text-capitalize">user</span>
@@ -90,13 +90,13 @@
                     <span class="text-capitalize">administrasi</span>
                 </a>
                 <ul class="submenu ">
-                    <li class="submenu-item ">
+                    <li class="submenu-item {{ request()->routeIs('pengurus-pondok.index') ? 'active' : '' }}">
                         <a href="{{ route('pengurus-pondok.index') }}" class="text-capitalize">pengurus pondok</a>
                     </li>
-                    <li class="submenu-item ">
+                    <li class="submenu-item {{ request()->routeIs('guru.index') ? 'active' : '' }}">
                         <a href="{{ route('guru.index') }}" class="text-capitalize">guru</a>
                     </li>
-                    <li class="submenu-item ">
+                    <li class="submenu-item {{ request()->routeIs('siswa.index') ? 'active' : '' }}">
                         <a href="{{ route('siswa.index') }}" class="text-capitalize">siswa</a>
                     </li>
                 </ul>
