@@ -22,7 +22,7 @@ class OrganisasiController extends Controller
                 ->addIndexColumn()
                 ->editColumn('image', function ($item) {
                     if ($item->image) {
-                        return '<img src="' . Storage::url($item->image) . '" alt="image" width="100px">';
+                        return '<img src="' . asset('storage/' . str_replace('public/', '', $item->image)) . '" alt="image" width="100px">';
                     }
                     return '-';
                 })
@@ -62,7 +62,7 @@ class OrganisasiController extends Controller
     {
         $file = $request->file('image');
         if ($file) {
-            $data['image'] = $file->storeAs('public/organisasi', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('organisasi', $file->getClientOriginalName(), 'public');
         } else {
             $data['image'] = null;
         }
@@ -97,10 +97,10 @@ class OrganisasiController extends Controller
         $data = $request->all();
         if ($request->hasFile('image')) {
             if ($organisasi->image) {
-                Storage::delete($organisasi->image);
+                Storage::disk('public')->delete(str_replace('public/', '', $organisasi->image));
             }
             $file = $request->file('image');
-            $data['image'] = $file->storeAs('public/organisasi', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('organisasi', $file->getClientOriginalName(), 'public');
         } else {
             unset($data['image']);
         }
@@ -117,7 +117,7 @@ class OrganisasiController extends Controller
     public function destroy(Organisasi $organisasi)
     {
         if ($organisasi->image) {
-            Storage::delete($organisasi->image);
+            Storage::disk('public')->delete(str_replace('public/', '', $organisasi->image));
         }
         $organisasi->delete();
 

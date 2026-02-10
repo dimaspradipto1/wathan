@@ -21,7 +21,7 @@ class GalleryController extends Controller
                 ->addIndexColumn()
                 ->editColumn('image', function ($item) {
                     if ($item->image) {
-                        return '<img src="' . Storage::url($item->image) . '" alt="image" width="100px">';
+                        return '<img src="' . asset('storage/' . str_replace('public/', '', $item->image)) . '" alt="image" width="100px">';
                     }
                     return '-';
                 })
@@ -61,7 +61,7 @@ class GalleryController extends Controller
     {
         $file = $request->file('image');
         if ($file) {
-            $data['image'] = $file->storeAs('public/gallery', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('gallery', $file->getClientOriginalName(), 'public');
         } else {
             $data['image'] = null;
         }
@@ -95,10 +95,10 @@ class GalleryController extends Controller
         $data = $request->all();
         if ($request->hasFile('image')) {
             if ($gallery->image) {
-                Storage::delete($gallery->image);
+                Storage::disk('public')->delete(str_replace('public/', '', $gallery->image));
             }
             $file = $request->file('image');
-            $data['image'] = $file->storeAs('public/gallery', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('gallery', $file->getClientOriginalName(), 'public');
         } else {
             unset($data['image']);
         }
@@ -115,7 +115,7 @@ class GalleryController extends Controller
     public function destroy(gallery $gallery)
     {
         if ($gallery->image) {
-            Storage::delete($gallery->image);
+            Storage::disk('public')->delete(str_replace('public/', '', $gallery->image));
         }
         $gallery->delete();
 

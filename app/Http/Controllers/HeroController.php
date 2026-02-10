@@ -22,7 +22,7 @@ class HeroController extends Controller
                 ->addIndexColumn()
                 ->addColumn('image', function ($item) {
                     if ($item->image) {
-                        return '<img src="' . Storage::url($item->image) . '" style="width:100px">';
+                        return '<img src="' . asset('storage/' . str_replace('public/', '', $item->image)) . '" style="width:100px">';
                     }
                     return '-';
                 })
@@ -63,7 +63,7 @@ class HeroController extends Controller
         $data['deskripsi'] = $request->deskripsi;
         $file = $request->file('image');
         if ($file) {
-            $data['image'] = $file->storeAs('public/hero', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('hero', $file->getClientOriginalName(), 'public');
         } else {
             $data['image'] = null;
         }
@@ -97,10 +97,10 @@ class HeroController extends Controller
         $data = $request->all();
         if ($request->hasFile('image')) {
             if ($hero->image) {
-                Storage::delete($hero->image);
+                Storage::disk('public')->delete(str_replace('public/', '', $hero->image));
             }
             $file = $request->file('image');
-            $data['image'] = $file->storeAs('public/hero', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('hero', $file->getClientOriginalName(), 'public');
         } else {
             unset($data['image']);
         }
@@ -117,7 +117,7 @@ class HeroController extends Controller
     public function destroy(Hero $hero)
     {
         if ($hero->image) {
-            Storage::delete($hero->image);
+            Storage::disk('public')->delete(str_replace('public/', '', $hero->image));
         }
         $hero->delete();
 

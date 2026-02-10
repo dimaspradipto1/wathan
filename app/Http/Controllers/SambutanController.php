@@ -22,7 +22,7 @@ class SambutanController extends Controller
                 ->addIndexColumn()
                 ->addColumn('image', function ($item) {
                     if ($item->image) {
-                        return '<img src="' . Storage::url($item->image) . '" style="width:100px">';
+                        return '<img src="' . asset('storage/' . str_replace('public/', '', $item->image)) . '" style="width:100px">';
                     }
                     return '-';
                 })
@@ -77,7 +77,7 @@ class SambutanController extends Controller
         $data['jabatan'] = $request->jabatan;
         $file = $request->file('image');
         if ($file) {
-            $data['image'] = $file->storeAs('public/sambutan', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('sambutan', $file->getClientOriginalName(), 'public');
         } else {
             $data['image'] = null;
         }
@@ -112,10 +112,10 @@ class SambutanController extends Controller
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($sambutan->image) {
-                Storage::delete($sambutan->image);
+                Storage::disk('public')->delete(str_replace('public/', '', $sambutan->image));
             }
             $file = $request->file('image');
-            $data['image'] = $file->storeAs('public/sambutan', $file->getClientOriginalName());
+            $data['image'] = $file->storeAs('sambutan', $file->getClientOriginalName(), 'public');
         } else {
             // Keep existing image
             unset($data['image']);
@@ -133,7 +133,7 @@ class SambutanController extends Controller
     public function destroy(Sambutan $sambutan)
     {
         if ($sambutan->image) {
-            Storage::delete($sambutan->image);
+            Storage::disk('public')->delete(str_replace('public/', '', $sambutan->image));
         }
         $sambutan->delete();
 

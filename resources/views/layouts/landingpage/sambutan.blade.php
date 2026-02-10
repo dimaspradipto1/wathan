@@ -23,7 +23,7 @@
             <div class="row g-5">
                 <div class="col-lg-5 text-center wow fadeIn" data-wow-delay="0.1s">
                     <img class="img-fluid"
-                        src="{{ $sambutan->image ? Storage::url($sambutan->image) : asset('landingpage/img/pemilik.png') }}"
+                        src="{{ $sambutan->image ? asset('storage/' . str_replace('public/', '', $sambutan->image)) : asset('landingpage/img/pemilik.png') }}"
                         alt="">
                     <p class="my-4 fw-bold">{{ $sambutan->nama_pemilik ?? 'Nama Pemilik' }}</p>
                     <p class="mb-4 fw-bold">{{ $sambutan->jabatan ?? 'Jabatan' }}</p>

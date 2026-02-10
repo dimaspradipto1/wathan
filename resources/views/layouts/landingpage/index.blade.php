@@ -24,7 +24,7 @@
                 @foreach ($hero as $item)
                     <div class="carousel-item">
                         <img class="w-100"
-                            src="{{ $item->image ? Storage::url($item->image) : asset('landingpage/img/bg-nwbatam.jpg') }}"
+                            src="{{ $item->image ? asset('storage/' . str_replace('public/', '', $item->image)) : asset('landingpage/img/bg-nwbatam.jpg') }}"
                             alt="Image" style="height: 70vh; object-fit: cover; width: 100%;">
                         <div class="carousel-caption">
                             <div class="container">
@@ -61,7 +61,7 @@
                 <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
                     <div class="text-center">
                         <img class="img-fluid"
-                            src="{{ $sambutan->image ? Storage::url($sambutan->image) : asset('landingpage/img/pemilik.png') }}"
+                            src="{{ $sambutan->image ? asset('storage/' . str_replace('public/', '', $sambutan->image)) : asset('landingpage/img/pemilik.png') }}"
                             alt="">
                         <p class="my-4 fw-bold">{{ $sambutan->nama_pemilik ?? 'Nama Pemilik' }}</p>
                         <p class="mb-4 fw-bold">{{ $sambutan->jabatan ?? 'Jabatan' }}</p>
@@ -89,7 +89,7 @@
             <div class="owl-carousel product-carousel wow fadeInUp" data-wow-delay="0.5s">
                 @forelse ($galleries as $item)
                     <a href="" class="d-block product-item rounded">
-                        <img src="{{ $item->image ? Storage::url($item->image) : 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==' }}"
+                        <img src="{{ $item->image ? asset('storage/' . str_replace('public/', '', $item->image)) : 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==' }}"
                             alt="Gallery Image" style="width: 100%; height: 200px; object-fit: cover;">
                     </a>
                 @empty
